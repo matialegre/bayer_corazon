@@ -20,6 +20,7 @@ const char* mdnsName = "bayer";
 #define PIN_CIRC2_1 13
 #define PIN_CIRC2_2 14
 
+
 // Pines del sensor TCS3200
 #define S2 23
 #define S3 22
@@ -65,16 +66,13 @@ void activateCircuit1() {
 }
 
 void activateContraste() {
-  digitalWrite(PIN_BOMBA1, HIGH);
-  digitalWrite(PIN_BOMBA2, LOW);
-  
-  // Circuito 1 activado pero con modificaciones
-  digitalWrite(PIN_CIRC1_1, HIGH);  // Ya estaba HIGH
-  digitalWrite(PIN_CIRC1_2, HIGH);  // Mantenemos HIGH (o cambiar según necesidades)
-  
-  // Modificación específica para contraste
-  digitalWrite(PIN_CIRC2_2, LOW);    // Aseguramos que está LOW
-  // Agregar aquí otras modificaciones necesarias
+  digitalWrite(PIN_BOMBA1, LOW);
+  digitalWrite(PIN_BOMBA2, HIGH);
+  digitalWrite(PIN_CIRC2_1, HIGH);
+  digitalWrite(PIN_CIRC2_2, LOW); //CAMBIADO SALIDA PRENDO
+  digitalWrite(PIN_CIRC1_1, HIGH);  //CAMBIADO SALIDA APAGO
+  digitalWrite(PIN_CIRC1_2, LOW);
+
   
   server.send(200, "text/plain", "Modo Contraste activado");
 }
@@ -264,7 +262,7 @@ void loop() {
     if (autoMode) {
       String detection = detectType();
       if (detection == "AGUA") {
-        activateCircuit1();
+        activateCircuit2();
       } else {
         activateContraste();
       }
